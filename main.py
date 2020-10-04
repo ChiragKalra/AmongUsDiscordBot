@@ -23,7 +23,20 @@ class BotClient(discord.Client):
             return
 
         if bc is not None and bc.id in active_channel_ids and ROLE_MOD in [r.name for r in member.roles]:
-            active_channel_ids.remove(bc.id)
+            all_members = await bc.guild.fetch_members(limit=100000).flatten()
+            member_ids = bc.voice_states.keys()
+            connected_members = [m for m in all_members if m.id in member_ids]
+            mods_left = False
+            for connected_member in connected_members:
+                if not connected_member.bot and ROLE_MOD in [r.name for r in connected_member.roles]:
+                    mods_left = True
+                    break
+
+            if not mods_left:
+                active_channel_ids.remove(bc.id)
+                for connected_member in connected_members:
+                    if not connected_member.bot:
+                        await connected_member.edit(mute=False)
 
         if ac is not None and ac.id in active_channel_ids:
             await member.edit(mute=True)
