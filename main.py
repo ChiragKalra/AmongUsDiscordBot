@@ -51,6 +51,12 @@ class BotClient(discord.Client):
             if member.guild_permissions.administrator:
                 await member.add_roles(role)
 
+    @staticmethod
+    async def on_guild_join(guild):
+        if guild.name and ROLE_MOD not in [r.name for r in guild.roles]:
+            await guild.create_role(name=ROLE_MOD, color=discord.Colour(0xff0000))
+            await BotClient.make_mod(guild)
+
     def __init__(self, **options):
         intents = discord.Intents().default()
         intents.voice_states = True
