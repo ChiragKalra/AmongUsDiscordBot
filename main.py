@@ -1,4 +1,5 @@
 import discord
+import os
 from discord.ext.commands import has_permissions
 
 
@@ -100,6 +101,8 @@ class BotClient(discord.Client):
 
 
 if __name__ == '__main__':
-    token = open('token', 'r').read()
+    token = os.environ['token']
+    if not token:
+        token = open('token', 'r').read()
     client = BotClient()
     client.run(token)
