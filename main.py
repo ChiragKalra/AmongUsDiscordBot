@@ -68,10 +68,10 @@ class BotClient(discord.Client):
             active_channel_ids.add(channel.id)
         else:
             active_channel_ids.remove(channel.id)
-        all_members = await channel.guild.fetch_members(limit=100000).flatten()
-        member_ids = channel.voice_states.keys()
-        connected_members = [m for m in all_members if m.id in member_ids]
-        for member in connected_members:
+        # all_members = await channel.guild.fetch_members(limit=100000).flatten()
+        # member_ids = channel.voice_states.keys()
+        # connected_members = [m for m in all_members if m.id in member_ids]
+        for member in channel.members:
             if not member.bot:
                 await member.edit(mute=state)
 
@@ -107,8 +107,10 @@ class BotClient(discord.Client):
 
 
 if __name__ == '__main__':
-    token = os.environ['token']
-    if not token:
+    token = None
+    if os.environ.__contains__('token'):
+        token = os.environ['token']
+    elif not token:
         token = open('token', 'r').read()
     client = BotClient()
     client.run(token)
