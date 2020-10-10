@@ -44,7 +44,7 @@ class BotClient(discord.Client):
     @staticmethod
     async def make_mod(guild):
         role = [r for r in guild.roles if r.name == ROLE_MOD][0]
-        async for member in guild.fetch_members(limit=100000):
+        async for member in guild.chunk():
             if member.guild_permissions.administrator:
                 await member.add_roles(role)
 
