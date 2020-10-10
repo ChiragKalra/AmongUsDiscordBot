@@ -24,18 +24,15 @@ class BotClient(discord.Client):
             return
 
         if bc is not None and bc.id in active_channel_ids and ROLE_MOD in [r.name for r in member.roles]:
-            all_members = await bc.guild.fetch_members(limit=100000).flatten()
-            member_ids = bc.voice_states.keys()
-            connected_members = [m for m in all_members if m.id in member_ids]
             mods_left = False
-            for connected_member in connected_members:
+            for connected_member in bc.members:
                 if not connected_member.bot and ROLE_MOD in [r.name for r in connected_member.roles]:
                     mods_left = True
                     break
 
             if not mods_left:
                 active_channel_ids.remove(bc.id)
-                for connected_member in connected_members:
+                for connected_member in bc.members:
                     if not connected_member.bot:
                         await connected_member.edit(mute=False)
 
@@ -89,11 +86,10 @@ class BotClient(discord.Client):
     async def on_message(self, message):
         _content = message.clean_content.lower()
 
-        # we do not want the bot to reply to itself
         if message.author.id == self.user.id or not _content.startswith(PREFIX_COMMAND):
             return
-        else:
-            _content = _content[1:]
+
+        _content = _content[1:]
 
         if ROLE_MOD in [r.name for r in message.author.roles] and \
                 message.author.voice is not None:
