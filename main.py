@@ -3,7 +3,7 @@ import os
 from discord.ext.commands import has_permissions
 
 
-PREFIX_COMMAND = '$'
+PREFIX_COMMAND = ','
 ROLE_MOD = 'CrewMod'
 COMMANDS_MUTE = ['mute', 'm']
 COMMANDS_UNMUTE = ['unmute', 'um']
