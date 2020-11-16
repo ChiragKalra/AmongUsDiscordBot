@@ -5,7 +5,7 @@ This discord bot simply mutes/un-mutes everyone in the voice chat it is called f
 This allows fellow Among Us try-hards to grind.
 
 ## Usage
-"$mute" or simply "$m" to mute everyone in the voice chat and "$unmute" or "$um" to un-mute.
+",mute" or simply ",m" to mute everyone in the voice chat and ",unmute" or ",um" to un-mute.
 
 Members with the role "CrewMod" can call this bot. All admins are "CrewMod"s by default. 
 
