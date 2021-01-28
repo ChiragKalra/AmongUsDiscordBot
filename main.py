@@ -106,7 +106,7 @@ if __name__ == '__main__':
     token = None
     if os.environ.__contains__('token'):
         token = os.environ['token']
-    elif not token:
+    else:
         token = open('token', 'r').read()
     client = BotClient()
     client.run(token)
